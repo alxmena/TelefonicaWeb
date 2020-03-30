@@ -1,0 +1,85 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Root.master.cs" Inherits="ATCPortal.RootMaster" %>
+
+<%-- DXCOMMENT: Page Root.master is a master page that contains the root layout (it includes Header, Cental Area, and Footer) --%>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="Content/Site2.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <asp:ContentPlaceHolder ID="head" runat="server" />        
+</head>
+<body runat="server" id="Body">
+    <form id="form1" runat="server">
+        <dx:ASPxPanel ID="HeaderPane" runat="server" FixedPosition="WindowTop" ClientInstanceName="headerPane" Collapsible="true">
+            <SettingsAdaptivity CollapseAtWindowInnerWidth="600" />
+            <Styles>
+                <Panel></Panel>
+                <ExpandBar></ExpandBar>
+            </Styles>
+            <PanelCollection>
+                <dx:PanelContent runat="server" SupportsDisabledAttribute="True">
+                    <div class="headerPanel">
+                        <div class="title">
+                            <dx:ASPxImage ID="imgCustomer" runat="server" ImageUrl="~/Images/Q-Logo4.gif" ShowLoadingImage="true" CssClass="logo"></dx:ASPxImage>
+                        </div>
+                    </div>
+                    <div class="headerMenu">
+                        <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                                <AnonymousTemplate>
+                                    <a href="~/Account/Login.aspx" runat="server" id="loginLink">Log In</a> 
+                                    | 
+                                    <a href="~/Account/Register.aspx" runat="server" id="registerLink">Register</a>
+                                </AnonymousTemplate>
+                                <LoggedInTemplate>
+                                    Welcome
+                                    <span class="bold">
+                                        <asp:LoginName ID="HeadLoginName" runat="server" />
+                                    </span>!
+                                    <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/" />&nbsp;|
+                                    <dx:ASPxHyperLink ID="linChange" runat="server" Text="Change Password" NavigateUrl="~/Account/ChangePassword.aspx">
+                                    </dx:ASPxHyperLink>
+                                </LoggedInTemplate>
+                            </asp:LoginView>
+                    </div>
+                </dx:PanelContent>
+            </PanelCollection>
+            <ExpandedPanelTemplate>
+                <div class="headerMenu">
+                        <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                                <AnonymousTemplate>
+                                    <a href="~/Account/Login.aspx" runat="server" id="loginLink">Log In</a> 
+                                    | 
+                                    <a href="~/Account/Register.aspx" runat="server" id="registerLink">Register</a>
+                                </AnonymousTemplate>
+                                <LoggedInTemplate>
+                                    Welcome
+                                    <span class="bold">
+                                        <asp:LoginName ID="HeadLoginName" runat="server" />
+                                    </span>!
+                                    <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/" />&nbsp;|
+                                    <dx:ASPxHyperLink ID="linChange" runat="server" Text="Change Password" NavigateUrl="~/Account/ChangePassword.aspx">
+                                    </dx:ASPxHyperLink>
+                                </LoggedInTemplate>
+                            </asp:LoginView>
+                    </div>
+            </ExpandedPanelTemplate>
+            <ExpandBarTemplate>
+                <div>
+                    <a id="TitleLink" href="~/" runat="server"> <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="Technical Assistance Portal" Font-Bold="True" Font-Size="Small" ForeColor="#C594A4"></dx:ASPxLabel></a>
+                </div>
+            </ExpandBarTemplate>
+        </dx:ASPxPanel>
+        <dx:ASPxPanel ID="MainPane" runat="server">
+            <PanelCollection>
+                <dx:PanelContent runat="server" SupportsDisabledAttribute="True">
+                    <asp:ContentPlaceHolder ID="Content" runat="server" />
+                </dx:PanelContent>
+            </PanelCollection>
+        </dx:ASPxPanel>
+        <asp:XmlDataSource ID="XmlDataSourceHeader" runat="server" DataFile="~/App_Data/TopMenu.xml" XPath="/items/*"></asp:XmlDataSource>
+    </form>
+</body>
+</html>

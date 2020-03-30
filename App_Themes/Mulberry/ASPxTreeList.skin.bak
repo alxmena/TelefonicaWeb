@@ -1,0 +1,19 @@
+<%@ Register TagPrefix="dx" Namespace="DevExpress.Data" Assembly="DevExpress.Data.v17.2, Version=17.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" %>
+<%@ Register TagPrefix="dx" Namespace="DevExpress.Web.ASPxTreeList" Assembly="DevExpress.Web.ASPxTreeList.v17.2, Version=17.2.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" %>
+
+<dx:ASPxTreeList runat="server">
+    <Settings SuppressOuterGridLines="True" />
+    <SettingsPager CurrentPageNumberFormat="{0}" />
+
+    <Images SpriteCssFilePath="~/App_Themes/Mulberry/{0}/sprite.css" />
+    <Styles CssPostfix="Mulberry" CssFilePath="~/App_Themes/Mulberry/{0}/styles.css">
+        <CustomizationWindowContent VerticalAlign="Top" />
+    </Styles>
+    <SettingsCustomizationWindow PopupWidth="165px" />
+    <SettingsPopup>
+        <HeaderFilter MinWidth="280px" MinHeight="150px" />
+        <CustomizationWindow MinWidth="240px" MinHeight="260px" />
+    </SettingsPopup>
+</dx:ASPxTreeList>
+
+

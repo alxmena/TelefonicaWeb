@@ -1,0 +1,5 @@
+Aldebaran_1980
+
+https://o7planning.org/en/10311/spring-mvc-and-spring-jdbc-transaction-tutorial
+
+http://re-orientation.com/tecnologia/manual-paso-paso-app-integral-spring-framework

@@ -1,0 +1,36 @@
+<%@ Master Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="ATCPortal.MainMaster" %>
+
+<%-- DXCOMMENT: Page Main.master is a master page that contains central area layout --%>
+<asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">    
+    <dx:ASPxPanel ID="LeftPane" runat="server" FixedPosition="WindowLeft" ClientInstanceName="leftPane" Collapsible="true" Theme="RedWine">
+            <SettingsAdaptivity CollapseAtWindowInnerWidth="1023" />
+            <Styles>
+                <Panel CssClass="leftPanel"></Panel>
+            </Styles>
+            <PanelCollection>
+                <dx:PanelContent runat="server" SupportsDisabledAttribute="True">
+                    <div class="leftMenu">
+                        <dx:ASPxNavBar ID="ASPxNavBar1" runat="server" AutoCollapse="True" EnableAnimation="True" Width="100%" DataSourceID="XmlDataSourceLeft">
+                            <Border BorderWidth="0px" />
+                            <Paddings Padding="0px" />
+                            <ItemTextTemplate>
+                                <dx:ASPxHyperLink ID="ASPxHyperLink1" runat="server" Text='<%# Container.EvalDataItem("Text") %>' NavigateUrl='<%# Container.EvalDataItem("NavigateUrl") %>' >
+                                </dx:ASPxHyperLink>
+                            </ItemTextTemplate>
+                        </dx:ASPxNavBar>
+                    </div>
+
+                    <div style="padding:12px 24px">
+                        <dx:ASPxImage ID="imgZTS" Width="150px" runat="server" ShowLoadingImage="true" ImageUrl="~/Images/AN-Logo-Small-Transparent.gif"></dx:ASPxImage>
+                    </div>
+                </dx:PanelContent>
+            </PanelCollection>
+        </dx:ASPxPanel>
+
+    <div class="contentPanel">
+        <asp:ContentPlaceHolder ID="MainContent" runat="server" >
+        </asp:ContentPlaceHolder>
+    </div>   
+    
+    <asp:XmlDataSource ID="XmlDataSourceLeft" runat="server" DataFile="~/App_Data/SideMenu.xml" XPath="/menu/*"></asp:XmlDataSource>   
+</asp:Content>

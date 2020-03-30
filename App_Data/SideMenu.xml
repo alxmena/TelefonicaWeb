@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menu>
+  <group Text="Operations Support" Role="Operations">
+    <item Text="Open Ticket" NavigateUrl="/Operations/ForwardTicket.aspx"/>
+    <item Text="Ticket Details" NavigateUrl="/Operations/TicketDetails.aspx"/>
+   </group>
+  <group Text="Financial" Role="Financial">
+    <item Text="Tickets Package" NavigateUrl="/Financial/TicketsPackage.aspx"></item>
+  </group>
+  <group Text="Reports" Role="Reports">
+    <item Text="View Tickets" NavigateUrl="/Reports/ViewTickets.aspx"></item>
+    <item Text="Report Tickets" NavigateUrl="/Reports/ReportTicketView.aspx"></item>
+    <item Text="Report SLA" NavigateUrl="/Reports/SLATickets.aspx"></item>
+    <item Text="Report Trial SLA" NavigateUrl="/Reports/SLATickets.aspx?trial=trial"></item>
+  </group>
+  <group Text="Amerinode Internal" Role="Amerinode">
+    <item Text="Update Ticket" NavigateUrl="/Amerinode/UpdateTicket.aspx"/>
+    <item Text="Q Ticket" NavigateUrl="/Amerinode/QTicket.aspx"/>
+    <item Text="Manage Questions Survey" NavigateUrl="/Questions/ManageQuestions.aspx"></item>
+  </group>
+  <group Text="Users Admin" Role="Users Admin">
+    <item Text="Manage Users" NavigateUrl="/UsersAdmin/ManageUsers2.aspx" />
+    <item Text="Assign Roles" NavigateUrl="/UsersAdmin/AssignRoles2.aspx" />
+  </group>
+  <group Text="Master Menu" Role="Master">
+    <item Text="Manage Users" NavigateUrl="/Master/ManageUsers.aspx" />
+    <item Text="Assign Roles" NavigateUrl="/Master/AssignRoles.aspx" />
+    <item Text="Manage Roles" NavigateUrl="/Master/ManageRoles.aspx" />
+    <item Text="Manage Permission" NavigateUrl="/Master/ManagePermissions.aspx" />
+    <item Text="Email Templates" NavigateUrl="/Master/Templates.aspx" />
+    <item Text="Customer Parameters" NavigateUrl="/Master/CustomerParameters.aspx" />
+  </group>
+  <group Text="Training Center" Role="All">
+    <item Text="User Guide" NavigateUrl="#" />
+    <item Text="User Videos" NavigateUrl="#" />
+  </group>
+  <group Text="About Q" Role="All">
+    <item Text="Version" NavigateUrl="/About/Version.aspx" />
+  </group>
+</menu>
