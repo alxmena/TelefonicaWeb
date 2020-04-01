@@ -102,26 +102,24 @@ namespace ATCPortal.Amerinode
                 deRespDate.Date = DateTime.Parse(dt.Rows[0][0].ToString());
             else
                 deRespDate.Text = "";
-            lblRespNote.Text = dt.Rows[0][1].ToString().Replace("\n", "<br/>");
+            
             if (dt.Rows[0][2].ToString() != "")
                 deRestDate.Date = DateTime.Parse(dt.Rows[0][2].ToString());
             else
                 deRestDate.Text = "";
-            lblRestNote.Text = dt.Rows[0][3].ToString().Replace("\n", "<br/>");
+            
             if (dt.Rows[0][4].ToString() != "")
                 deResoDate.Date = DateTime.Parse(dt.Rows[0][4].ToString());
             else
                 deResoDate.Text = "";
-            lblResoNote.Text = dt.Rows[0][5].ToString().Replace("\n", "<br/>");
+            
             if (dt.Rows[0][6].ToString() != "")
                 deClosDate.Date = DateTime.Parse(dt.Rows[0][6].ToString());
             else
                 deClosDate.Text = "";
-            lblClosNote.Text = dt.Rows[0][7].ToString().Replace("\n", "<br/>");
-            lbRest.Text = dt.Rows[0][8].ToString();
-            lbResp.Text = dt.Rows[0][9].ToString();
-            lbReso.Text = dt.Rows[0][10].ToString();
-            lbClos.Text = dt.Rows[0][11].ToString();
+
+            meHistoryLog.Text = dt.Rows[0][1].ToString() + dt.Rows[0][3].ToString() + dt.Rows[0][5].ToString() + dt.Rows[0][7].ToString();
+            
         }
 
         private void SetRoot()
@@ -290,10 +288,11 @@ namespace ATCPortal.Amerinode
                                     TimeSpan time = DateTime.Parse(dr["PendingInfoOff"].ToString()) - DateTime.Parse(dr["PendingInfoOn"].ToString());
                                     logs.Append("\nTime total hold " + time.ToString(@"dd\.hh\:mm\:ss") + "\n");
                                     acumTotal += time;
-                                    logs.Append("-------------------------------------------------------------\n\n");
+                                    logs.Append("\n");
                                 }
                             }
-                            lblRespPending.Text = logs.ToString().Replace("\n", "<br/>"); ;
+                            memoRest.Text = logs.ToString(); 
+                            
                         }
                         break;
                     #endregion
@@ -316,10 +315,10 @@ namespace ATCPortal.Amerinode
                                     TimeSpan time = DateTime.Parse(dr["PendingInfoOff"].ToString()) - DateTime.Parse(dr["PendingInfoOn"].ToString());
                                     logs.Append("\nTime total hold " + time.ToString(@"dd\.hh\:mm\:ss") + "\n");
                                     acumTotal += time;
-                                    logs.Append("-------------------------------------------------------------\n\n");
+                                    logs.Append("\n");
                                 }
                             }
-                            lblRestPending.Text = logs.ToString().Replace("\n", "<br/>"); ;
+                            memoRest.Text = logs.ToString();
                         }
                         break;
                     #endregion
@@ -342,10 +341,10 @@ namespace ATCPortal.Amerinode
                                     TimeSpan time = DateTime.Parse(dr["PendingInfoOff"].ToString()) - DateTime.Parse(dr["PendingInfoOn"].ToString());
                                     logs.Append("\nTime total hold " + time.ToString(@"dd\.hh\:mm\:ss") + "\n");
                                     acumTotal += time;
-                                    logs.Append("-------------------------------------------------------------\n\n");
+                                    logs.Append("\n");
                                 }
                             }
-                            lblResoPending.Text = logs.ToString().Replace("\n", "<br/>"); ;
+                            memoRest.Text = logs.ToString().Replace("\n", "<br/>"); ;
                         }
                         break;
                     #endregion

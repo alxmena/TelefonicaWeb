@@ -11,10 +11,10 @@ namespace ATCPortal
 
         public static string SendEmail(string title, string Msg, string DestEmail)
         {
-            String userName = "q@amerinode.com";
-            String password = "Ilikechocolate5!";
-            //String userName = "axlmenaaxlm77enaxlmena0000@hotmail.com";
+            //String userName = "q@amerinode.com";
             //String password = "Ilikechocolate5!";
+            String userName = "axlmenaaxlm77enaxlmena0000@hotmail.com";
+            String password = "Ilikechocolate5!";
             try
             {
                 MailMessage email = new MailMessage();

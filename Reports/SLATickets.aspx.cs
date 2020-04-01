@@ -280,23 +280,25 @@ namespace ATCPortal.Reports
             {
                 if (e.CellValue.ToString() == "NO OK")
                 {
-                    e.Cell.BackColor = System.Drawing.Color.Red;                   
+                    //e.Cell.BackColor = System.Drawing.Color.Red;                   
 
-                    //e.Cell.ForeColor = System.Drawing.Color.Red; 
+                    e.Cell.ForeColor = System.Drawing.Color.Red; 
                 }
             }
             if (e.DataColumn.FieldName == "SlaResolution")
             {
                 if (e.CellValue.ToString() == "NO OK")
                 {
-                    e.Cell.BackColor = System.Drawing.Color.Red;
+                    //e.Cell.BackColor = System.Drawing.Color.Red;
+                    e.Cell.ForeColor = System.Drawing.Color.Red;
                 }
             }
             if (e.DataColumn.FieldName == "SlaRestoration")
             {
                 if (e.CellValue.ToString() == "NO OK")
                 {
-                    e.Cell.BackColor = System.Drawing.Color.Red;                    
+                    //e.Cell.BackColor = System.Drawing.Color.Red;
+                    e.Cell.ForeColor = System.Drawing.Color.Red;
                 }
             }
             //Code Created by AM**

@@ -913,6 +913,15 @@ namespace ATCPortal.Amerinode {
         protected global::DevExpress.Web.ASPxUploadControl ucReso;
         
         /// <summary>
+        /// Control lblTest.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTest;
+        
+        /// <summary>
         /// Control Panel4.
         /// </summary>
         /// <remarks>

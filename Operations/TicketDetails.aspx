@@ -301,133 +301,64 @@
         </PanelCollection>
     </dx:ASPxRoundPanel>
     <br />
-    <dx:ASPxRoundPanel ID="Panel3" runat="server" ShowCollapseButton="true" Width="100%" HeaderText="Restoration and Resolution Information" AllowCollapsingByHeaderClick="true" Visible="false">
+    <dx:ASPxRoundPanel ID="Panel3" runat="server" ShowCollapseButton="true" Width="100%" HeaderText="Set Dates and Notes / Update Status" AllowCollapsingByHeaderClick="true" Visible="false">
         <PanelCollection>
             <dx:PanelContent runat="server">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-6">
-                            Response Date and Time:
-                            <div class="float-right">
-                                Response By:
-                                <dx:ASPxLabel ID="lbResp" runat="server"></dx:ASPxLabel>
-                            </div>
-                            <dx:ASPxDateEdit ID="deRespDate" runat="server" Width="350px" ReadOnly="true" EditFormat="DateTime" TimeSectionProperties-Visible="true">
+                    <div class="row content-row">
+                        <div class="col-6" style="position:static">
+                            
+                            <asp:Label ID="lbHistLog" runat="server" Text="Ticket History Log:" ForeColor="Blue"></asp:Label>
+                            <br /><br />
+                            <dx:ASPxMemo EncodeHtml="true" ID="meHistoryLog" runat="server" ReadOnly="true" Height="600px" Width="100%" BackColor="#CCFFCC">
+                                <Border BorderColor="Navy" BorderStyle="Solid" />
+                            </dx:ASPxMemo>
+                            <dx:ASPxMemo EncodeHtml="true" ID="meRespNote" runat="server" Height="10px" Width="100%" BackColor="#CCFFCC" Visible="false">
+                                <Border BorderColor="Black" BorderStyle="Solid" />                                
+                            </dx:ASPxMemo>
+                            <br />                            
+                            
+                            <asp:Label ID="Label3" runat="server" Text="Hold Time History:" ForeColor="Blue" Visible="false"></asp:Label>                             
+                            <br /><br />
+                            <dx:ASPxMemo EncodeHtml="true" ID="memoRest" runat="server" Height="350px" Width="100%" ReadOnly="true" BackColor="#F5F5F5" Visible="false"></dx:ASPxMemo>                                                                
+                            <br /><br />                           
+                        </div>
+                        <div class="col-6" style="position:static">
+                           <br /><br />
+                             <asp:label ID="lbRespDateTime" runat="server" Text="Response Date and Time:" ForeColor="Blue"></asp:label>
+                           
+                            <dx:ASPxDateEdit ID="deRespDate" runat="server" Width="350px" EditFormat="DateTime" TimeSectionProperties-Visible="true" PopupVerticalAlign="Below" style="z-index:150">
+                                <ClearButton DisplayMode="OnHover"/>
+                                <TimeSectionProperties Visible="True"></TimeSectionProperties>
+                                <ClientSideEvents DropDown="initDate"/>
                             </dx:ASPxDateEdit>
-                            <br />Response Note:
-                            <dx:ASPxPanel ID="pnlRespNote" runat="server" Width="100%">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <div style="overflow-y: auto; height: 180px; margin-top: 10px;">
-                                            <asp:Label runat="server" ID="lblRespNote" ></asp:Label>
-                                        </div>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxPanel>
-                        </div>
-                        <div class="col-6">
-                            Note Pending info on and pending info off:
-                            <dx:ASPxPanel ID="ASPxPanel1" runat="server" Width="100%">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <div style="overflow-y: auto; height: 180px; margin-top: 10px;">
-                                            <asp:Label runat="server" ID="lblRespPending" ></asp:Label>
-                                        </div>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxPanel>
-                        </div>
-                    </div>
-                    <br /><br />
-                    <div class="row">
-                        <div class="col-6">
-                            Restoration Date and Time:
-                            <div class="float-right">
-                                Restoration By:
-                                <dx:ASPxLabel ID="lbRest" runat="server"></dx:ASPxLabel>
-                            </div>
-                            <dx:ASPxDateEdit ID="deRestDate" runat="server" Width="350px" ReadOnly="true" EditFormat="DateTime" TimeSectionProperties-Visible="true">
+                            <br /><br />
+                            <asp:label ID="lbRestDateTime" runat="server" Text="Restoration Date and Time:" ForeColor="Blue" Visible="true"></asp:label>
+                            
+                            <dx:ASPxDateEdit ID="deRestDate" runat="server" Width="350px" EditFormat="DateTime" Visible="true" TimeSectionProperties-Visible="true">
+                                    <ClearButton DisplayMode="OnHover"/>
+                                    <TimeSectionProperties Visible="True"></TimeSectionProperties>
+                                    <ClientSideEvents DropDown="initDate"/>
                             </dx:ASPxDateEdit>
-                            <br />Restoration Note:
-                            <dx:ASPxPanel ID="pnlRestNote" runat="server" Width="100%">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <div style="overflow-y: auto; height: 180px; margin-top: 10px;">
-                                            <asp:Label runat="server" ID="lblRestNote"></asp:Label>
-                                        </div>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxPanel>
-                        </div>
-                        <div class="col-6">
-                            Note Pending info on and pending info off:
-                            <dx:ASPxPanel ID="ASPxPanel2" runat="server" Width="100%">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <div style="overflow-y: auto; height: 180px; margin-top: 10px;">
-                                            <asp:Label runat="server" ID="lblRestPending" ></asp:Label>
-                                        </div>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxPanel>
-                        </div>
-                    </div>
-                    <br /><br />
-                    <div class="row">
-                        <div class="col-6">
-                            Resolution Date and Time:
-                            <div class="float-right">
-                                Resolution By:
-                                <dx:ASPxLabel ID="lbReso" runat="server"></dx:ASPxLabel>
-                            </div>
-                            <dx:ASPxDateEdit ID="deResoDate" runat="server" Width="350px" ReadOnly="true" EditFormat="DateTime" TimeSectionProperties-Visible="true">
+                            <br /><br />
+                            <asp:label ID="lbResoDateTime" runat="server" Text="Resolution Date and Time:" ForeColor="Blue" Visible="true"></asp:label>
+                            
+                            <dx:ASPxDateEdit ID="deResoDate" runat="server" Width="350px" EditFormat="DateTime" Visible="true" TimeSectionProperties-Visible="true">
+                                    <ClearButton DisplayMode="OnHover"/>
+                                    <TimeSectionProperties Visible="True"></TimeSectionProperties>
+                                    <ClientSideEvents DropDown="initDate"/>
                             </dx:ASPxDateEdit>
-                            <br />Resolution Note:
-                            <dx:ASPxPanel ID="pnlResoNote" runat="server" Width="100%">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <div style="overflow-y: auto; height: 180px; margin-top: 10px;">
-                                            <asp:Label runat="server" ID="lblResoNote"></asp:Label>
-                                        </div>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxPanel>
+                            <br /><br />
+                            <asp:label ID="lbCloseDateTime" runat="server" Text="Closure Date and Time:" ForeColor="Blue" Visible="true"></asp:label>
+                            
+                            <dx:ASPxDateEdit ID="deClosDate" runat="server" Width="350px" EditFormat="DateTime" Visible="true" TimeSectionProperties-Visible="true">
+                                            <ClearButton DisplayMode="OnHover"/>
+                                            <TimeSectionProperties Visible="True"></TimeSectionProperties>
+                                            <ClientSideEvents DropDown="initDate"/>
+                                        </dx:ASPxDateEdit>                               
+                            <asp:Label runat="server" Text=""></asp:Label><asp:Label ID="lblTest" runat="server" Text=""></asp:Label>
                         </div>
-                        <div class="col-6">
-                            Note Pending info on and pending info off:
-                            <dx:ASPxPanel ID="ASPxPanel3" runat="server" Width="100%">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <div style="overflow-y: auto; height: 180px; margin-top: 10px;">
-                                            <asp:Label runat="server" ID="lblResoPending" ></asp:Label>
-                                        </div>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxPanel>
-                        </div>
-                    </div>
-                    <br /> <br />
-                    <div class="row">
-                        <div class="col-6">
-                            Closure Date and Time (approved by the customer):
-                            <div class="float-right">
-                                Closure By:
-                                <dx:ASPxLabel ID="lbClos" runat="server"></dx:ASPxLabel>
-                            </div>
-                            <dx:ASPxDateEdit ID="deClosDate" runat="server" Width="350px" ReadOnly="true" EditFormat="DateTime" TimeSectionProperties-Visible="true">
-                            </dx:ASPxDateEdit>
-                            <br />Closure Note:
-                            <dx:ASPxPanel ID="pnlClosNote" runat="server" Width="100%">
-                                <PanelCollection>
-                                    <dx:PanelContent>
-                                        <div style="overflow-y: auto; height: 180px; margin-top: 10px;">
-                                            <asp:Label runat="server" ID="lblClosNote"></asp:Label>
-                                        </div>
-                                    </dx:PanelContent>
-                                </PanelCollection>
-                            </dx:ASPxPanel>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
             </dx:PanelContent>
         </PanelCollection>

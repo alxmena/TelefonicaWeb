@@ -409,13 +409,58 @@ namespace ATCPortal.Amerinode {
         protected global::DevExpress.Web.ASPxRoundPanel Panel3;
         
         /// <summary>
-        /// Control lbResp.
+        /// Control lbHistLog.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel lbResp;
+        protected global::System.Web.UI.WebControls.Label lbHistLog;
+        
+        /// <summary>
+        /// Control meHistoryLog.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxMemo meHistoryLog;
+        
+        /// <summary>
+        /// Control meRespNote.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxMemo meRespNote;
+        
+        /// <summary>
+        /// Control Label3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label3;
+        
+        /// <summary>
+        /// Control memoRest.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxMemo memoRest;
+        
+        /// <summary>
+        /// Control lbRespDateTime.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbRespDateTime;
         
         /// <summary>
         /// Control deRespDate.
@@ -427,49 +472,13 @@ namespace ATCPortal.Amerinode {
         protected global::DevExpress.Web.ASPxDateEdit deRespDate;
         
         /// <summary>
-        /// Control pnlRespNote.
+        /// Control lbRestDateTime.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel pnlRespNote;
-        
-        /// <summary>
-        /// Control lblRespNote.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRespNote;
-        
-        /// <summary>
-        /// Control ASPxPanel1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel ASPxPanel1;
-        
-        /// <summary>
-        /// Control lblRespPending.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRespPending;
-        
-        /// <summary>
-        /// Control lbRest.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel lbRest;
+        protected global::System.Web.UI.WebControls.Label lbRestDateTime;
         
         /// <summary>
         /// Control deRestDate.
@@ -481,49 +490,13 @@ namespace ATCPortal.Amerinode {
         protected global::DevExpress.Web.ASPxDateEdit deRestDate;
         
         /// <summary>
-        /// Control pnlRestNote.
+        /// Control lbResoDateTime.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel pnlRestNote;
-        
-        /// <summary>
-        /// Control lblRestNote.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRestNote;
-        
-        /// <summary>
-        /// Control ASPxPanel2.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel ASPxPanel2;
-        
-        /// <summary>
-        /// Control lblRestPending.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRestPending;
-        
-        /// <summary>
-        /// Control lbReso.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel lbReso;
+        protected global::System.Web.UI.WebControls.Label lbResoDateTime;
         
         /// <summary>
         /// Control deResoDate.
@@ -535,49 +508,13 @@ namespace ATCPortal.Amerinode {
         protected global::DevExpress.Web.ASPxDateEdit deResoDate;
         
         /// <summary>
-        /// Control pnlResoNote.
+        /// Control lbCloseDateTime.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel pnlResoNote;
-        
-        /// <summary>
-        /// Control lblResoNote.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResoNote;
-        
-        /// <summary>
-        /// Control ASPxPanel3.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel ASPxPanel3;
-        
-        /// <summary>
-        /// Control lblResoPending.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblResoPending;
-        
-        /// <summary>
-        /// Control lbClos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel lbClos;
+        protected global::System.Web.UI.WebControls.Label lbCloseDateTime;
         
         /// <summary>
         /// Control deClosDate.
@@ -589,22 +526,13 @@ namespace ATCPortal.Amerinode {
         protected global::DevExpress.Web.ASPxDateEdit deClosDate;
         
         /// <summary>
-        /// Control pnlClosNote.
+        /// Control lblTest.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel pnlClosNote;
-        
-        /// <summary>
-        /// Control lblClosNote.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblClosNote;
+        protected global::System.Web.UI.WebControls.Label lblTest;
         
         /// <summary>
         /// Control Panel4.

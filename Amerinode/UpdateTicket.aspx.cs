@@ -120,26 +120,13 @@ namespace ATCPortal.Amerinode
             Session["RejectAceptBy"] = null;
             Session["LogsOpen"] = null;
             Session["LogsRestored"] = null;
-            Session["PreviousStatus"] = null;
+            //Session["PreviousStatus"] = null;
             //update file manager
             SetRoot();
             memoRest.Text = "";
             meRespNote.Enabled = true;
 
-            /*******
-            deRespDate.Visible = false; 
-            deRespDate.Enabled = false;
-            lbRespDateTime.Visible = false;
-            deRestDate.Visible = false;
-            deRestDate.Enabled = false;
-            lbRestDateTime.Visible = false;
-            deResoDate.Visible = false;
-            deResoDate.Enabled = false;
-            lbResoDateTime.Visible = false;
-            deClosDate.Visible = false;
-            deClosDate.Enabled = false;
-            lbCloseDateTime.Visible = false;
-            ********/
+            
             //get all dates and notes
             string sql = "SELECT ResponseDate, ResponseNote, RestorationDate, RestorationNote, ResolutionDate, ResolutionNote, ClosureDate, ClosureNote, ResponseBy, RestorationBy, ResolutionBy, ClosureBy, CreationDate, RejectNote, RejectAceptBy, SolutionTypeID from tblTicket WHERE ID = " + gvTickets.Text;
 
@@ -148,6 +135,7 @@ namespace ATCPortal.Amerinode
             Session["RejectAceptBy"] = dt.Rows[0][14].ToString();
             String aa = Session["_StatusID"].ToString();
             //String bb = Session["PreviousStatus"].ToString();
+            pnlReject.Visible = false;
             if (Session["_StatusID"].ToString() != "7")  //  7. Status Pending Info
             {
                 if (Session["_StatusID"].ToString() == "6")  //6. Status Rejected
@@ -163,7 +151,7 @@ namespace ATCPortal.Amerinode
                 }
                 else if (Convert.ToInt32(Session["_StatusID"]) >= 1 && Convert.ToInt32(Session["_StatusID"]) != 6) // Status Different Created or Rejected
                 {
-                    pnlReject.Visible = false;
+                    
                     if (Session["RejectAceptBy"].ToString() != "")
                     {
                         rbOpen.Enabled = false;
@@ -182,19 +170,14 @@ namespace ATCPortal.Amerinode
                         btSaveData.Enabled = false;
                         deRespDate.Enabled = false;
                     }
-                    //pnlRestoration.Visible = true;
-                    //pnlResolution.Visible = true;
-                    //pnlClosure.Visible = true;
+                    
                     btnToPendingRest.Enabled = false; //Am Disable To and From Pending
                     btnFromPendingRest.Enabled = false;
                     deDateRest.Enabled = false;
+                    deDateRest.Value = null;
                     pnlSolution.Visible = false;
-                    if (Convert.ToInt32(Session["_StatusID"]) == 4)
-                    {
-                        btClose.Text = "Close Ticket";
-                        pnlSolution.Visible = true;
-                    }
-
+                    btClose.Text = "Close Status";
+                    
                 }
 
                 lblRejectBy.Text = dt.Rows[0][14].ToString();
@@ -214,6 +197,7 @@ namespace ATCPortal.Amerinode
                     lbMsg.Text = "Enter Response Note:";
                     pnlTickRest.Visible = false;
                     pnlTickReso.Visible = false;
+                    btSaveData.Enabled = false;
                 }
                 if (Convert.ToInt32(Session["_StatusID"]) == 2)
                 {
@@ -241,7 +225,14 @@ namespace ATCPortal.Amerinode
                 {
                     Status_tck.Text = "Status: Restored";
                     Status_tck.ForeColor = Color.Lime;
+                    deRespDate.Visible = true; //Date Time SLA
+                    deRespDate.Enabled = false;
+                    lbRespDateTime.Visible = true;                    
+                    deRestDate.Visible = true;
+                    deRestDate.Enabled = false;
+                    lbRestDateTime.Visible = true;
                     deResoDate.Enabled = true;
+                    deResoDate.Visible = true;
                     lbResoDateTime.Visible = true;
                     deClosDate.Visible = false;
                     deClosDate.Enabled = false;
@@ -271,6 +262,8 @@ namespace ATCPortal.Amerinode
                     pnlTickRest.Visible = true;
                     pnlTickReso.Visible = true;
                     lbMsg.Text = "Enter Closure Note:";
+                    btClose.Text = "Close Ticket";
+                    pnlSolution.Visible = true;
                 }
                 if (Convert.ToInt32(Session["_StatusID"]) == 5)
                 {
@@ -347,21 +340,23 @@ namespace ATCPortal.Amerinode
             {
                 btnToPendingRest.Enabled = false;
                 btnFromPendingRest.Enabled = true;
+                btClose.Enabled = false;
+                btSaveData.Enabled = false;
                 deDateRest.Enabled = true;
                 Status_tck.Text = "Status: Pending Info";
                 Status_tck.ForeColor = Color.Red;
+               
             }
             if (X == 3)
             {
                 btnToPendingRest.Enabled = false;
                 btnFromPendingRest.Enabled = true;
+                btClose.Enabled = false;
+                btSaveData.Enabled = false;
                 deDateRest.Enabled = true;
                 Status_tck.Text = "Status: Pending Info";
-                Status_tck.ForeColor = Color.Red;
+                Status_tck.ForeColor = Color.Red;                
             }
-            
-            
-
             meHistoryLog.Text = dt.Rows[0][1].ToString() + dt.Rows[0][3].ToString() + dt.Rows[0][5].ToString() + dt.Rows[0][7].ToString();
             meRespNote.Text = "";
 
@@ -387,7 +382,7 @@ namespace ATCPortal.Amerinode
             sp = new List<SqlParameter>()
                     {
                         new SqlParameter() {ParameterName = "@ID", SqlDbType = SqlDbType.BigInt, Value=gvTickets.Text},
-                        new SqlParameter() { ParameterName = "@StatusID", SqlDbType = SqlDbType.BigInt, Value=rbOpen.Checked ? 1 : 6 },
+                        new SqlParameter() { ParameterName = "@StatusID", SqlDbType = SqlDbType.BigInt, Value=rbOpen.Checked ? prevStatus : 6 },
                         new SqlParameter() {ParameterName = "@RejectAceptBy", SqlDbType = SqlDbType.NVarChar, Value=User.Identity.Name}
                     };
             
@@ -399,7 +394,7 @@ namespace ATCPortal.Amerinode
             }
             sql += " WHERE ID = @ID";
             DataBase.UpdateDB(sp, sql);
-            updateStatusTicket(rbOpen.Checked ? 1 : 6);
+            updateStatusTicket(rbOpen.Checked ? prevStatus : 6);
             Panel3.Visible = true;
             switch (prevStatus)
             {
@@ -407,7 +402,7 @@ namespace ATCPortal.Amerinode
                         
                         if (deRespDate.Text != "")
                         {
-                            sql = "UPDATE tblTicket SET ResponseDate = @Date, ResponseBy=@By, StatusID=2 WHERE ID = @ID";
+                            sql = "UPDATE tblTicket SET ResponseDate = @Date, RestorationNote='*** Status OPEN ***\n\n', ResponseBy=@By, StatusID=2 WHERE ID = @ID";
                             sp = new List<SqlParameter>()
                             {
                                 new SqlParameter() {ParameterName = "@Date", SqlDbType = SqlDbType.DateTime, Value=deRespDate.Date},
@@ -417,12 +412,11 @@ namespace ATCPortal.Amerinode
                             updateStatusTicket(2);//Pasar a Estado Siguiente
                             DataBase.UpdateDB(sp, sql);
                         }
-
                         break;
                     case 2:
                         if (deRestDate.Text != "")
                         {
-                            sql = "UPDATE tblTicket SET RestorationDate = @Date, RestorationBy=@By, StatusID=3 WHERE ID = @ID";
+                            sql = "UPDATE tblTicket SET RestorationDate = @Date, RestorationBy=@By, ResolutionNote='*** Status RESTORED ***\n\n', StatusID=3 WHERE ID = @ID";
                             sp = new List<SqlParameter>()
                             {
                                 new SqlParameter() {ParameterName = "@Date", SqlDbType = SqlDbType.DateTime, Value=deRestDate.Date},
@@ -432,21 +426,30 @@ namespace ATCPortal.Amerinode
                             updateStatusTicket(3);
                             DataBase.UpdateDB(sp, sql);
                         }
-                        break;
-                    case 3:
-                        if (deResoDate.Text != "")
+                        else
                         {
-                            sql = "UPDATE tblTicket SET ResolutionDate = @Date, ResolutionBy=@By, StatusID=4 WHERE ID = @ID";
-                            sp = new List<SqlParameter>()
+                            error = "Restoration Date and Time is required";
+                        }
+                    break;
+                    case 3:
+                    if (deResoDate.Text != "")
+                    {
+                        sql = "UPDATE tblTicket SET ResolutionDate = @Date, ResolutionBy=@By, ClosureNote='*** Status RESOLVED ***\n\n', StatusID=4 WHERE ID = @ID";
+                        sp = new List<SqlParameter>()
                             {
                                 new SqlParameter() {ParameterName = "@Date", SqlDbType = SqlDbType.DateTime, Value=deResoDate.Date},
                                 new SqlParameter() {ParameterName = "@By", SqlDbType = SqlDbType.NVarChar, Value=User.Identity.Name},
                                 new SqlParameter() {ParameterName = "@ID", SqlDbType = SqlDbType.BigInt, Value=gvTickets.Text}
                             };
-                            updateStatusTicket(4);
-                            DataBase.UpdateDB(sp, sql);
-                        }
-                        break;
+                        updateStatusTicket(4);
+                        DataBase.UpdateDB(sp, sql);
+                    }
+                    else
+                    {
+                        error = "Resolution Date and Time is required";
+                        
+                    }
+                    break;
                     case 4:
                         if (deClosDate.Text != "")
                         {
@@ -456,7 +459,7 @@ namespace ATCPortal.Amerinode
                                 sql = "UPDATE tblTicket SET ClosureDate = @Date, ClosureBy=@By, StatusID=5, SolutionTypeID=@SolutionTypeID, QuestionUI=@QuestionUI WHERE ID = @ID";
                                 sp = new List<SqlParameter>()
                                 {
-                                    new SqlParameter() {ParameterName = "@Date", SqlDbType = SqlDbType.DateTime, Value=deClosDate.Date},
+                                    new SqlParameter() {ParameterName = "@Date", SqlDbType = SqlDbType.DateTime, Value=deClosDate.Date },
                                     new SqlParameter() {ParameterName = "@By", SqlDbType = SqlDbType.NVarChar, Value=User.Identity.Name},
                                     new SqlParameter() {ParameterName = "@ID", SqlDbType = SqlDbType.BigInt, Value=gvTickets.Text},
                                     new SqlParameter() {ParameterName = "@SolutionTypeID", SqlDbType = SqlDbType.BigInt, Value=SolutionType.SelectedItem.Value},
@@ -474,73 +477,113 @@ namespace ATCPortal.Amerinode
                                 DataBase.UpdateDB(sp, sql);
                             }
                         }
-                        break;
+                    else
+                    {
+                        error = "Closure Date and Time is required";
+
+                    }
+                    break;
             }
             
             if (string.IsNullOrEmpty(error))
             {
                 lblMsg.Text = "Dates and Notes Updated Successfully";
+                popMsg.ShowOnPageLoad = true;
+                //Update Notes
+                btSaveData_Click(null, null, 0);
+                UpdatePendingInfo();
 
             }
             else
             {
                 lblMsg.Text = error;
+                popMsg.ShowOnPageLoad = true;
             }
+            /*
             popMsg.ShowOnPageLoad = true;
             //Update Notes
             btSaveData_Click(null, null);
             UpdatePendingInfo();
+            */
+            
         }
 
         protected void btToPending_Click(object sender, EventArgs e)
         {
-            string query = "INSERT INTO tblPendingInfo values(@TicketID, @PendingInfoOn, NULL, @PreviousStatus, @UsernameOn, NULL, @Detail, NULL)";
-            string queryTicket = "UPDATE tblTicket SET StatusID=7 WHERE ID = @ID";
-            List<SqlParameter> sp = new List<SqlParameter>()
+            if (deDateRest.Text != "")
+            {
+                string _meRespNote1 = string.Empty;
+                //string head = "Saved by: {0}\nDate: {1}\n{2}\n------------------------------------------------------------------------------------\n\n";
+                string head1 = "{2}\nSaved by: {0}\nDate: {1}\n\n*** Status PENDING INFO ***\n\n";
+                _meRespNote1 += string.Format(head1, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(memoTextRest.Text));
+
+                string query = "INSERT INTO tblPendingInfo values(@TicketID, @PendingInfoOn, NULL, @PreviousStatus, @UsernameOn, NULL, @Detail, NULL)";
+                string queryTicket = "UPDATE tblTicket SET StatusID=7";
+                List<SqlParameter> sp = new List<SqlParameter>()
             {
                 new SqlParameter() { ParameterName = "@TicketID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] },
                 new SqlParameter() { ParameterName = "@PreviousStatus", SqlDbType = SqlDbType.Int, Value = Session["_StatusID"]},
                 new SqlParameter() { ParameterName = "@UsernameOn", SqlDbType = SqlDbType.NVarChar, Value = User.Identity.Name }
             };
-            List<SqlParameter> spUpdate = new List<SqlParameter>()
+                List<SqlParameter> spUpdate = new List<SqlParameter>()
             {
                 new SqlParameter() { ParameterName = "@ID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] }
             };
-            int statusPrev = Convert.ToInt32(Session["_StatusID"]);
-            switch (statusPrev)
-            {
-                case 1:
-                    break;
-                case 2:
-                    sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOn", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
-                    sp.Add(new SqlParameter() { ParameterName = "@Detail", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
-                    memoTextRest.Text = "";
-                    Status_tck.Text = "Pending Info";
-                    Status_tck.ForeColor = Color.Red;
-                    btnFromPendingRest.Enabled = true;
-                    btnToPendingRest.Enabled = false;
+                int statusPrev = Convert.ToInt32(Session["_StatusID"]);
+                switch (statusPrev)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOn", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
+                        sp.Add(new SqlParameter() { ParameterName = "@Detail", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
+                        spUpdate.Add(new SqlParameter() { ParameterName = "@PendNote", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote1 });
+                        queryTicket += ", RestorationNote = (Select ISNULL(RestorationNote,'') + @PendNote From tblTicket Where ID = @ID) WHERE ID = @ID";
+                        memoTextRest.Text = "";
+                        Status_tck.Text = "Pending Info";
+                        Status_tck.ForeColor = Color.Red;
+                        btnFromPendingRest.Enabled = true;
+                        btnToPendingRest.Enabled = false;
+                        btClose.Enabled = false;
+                        btSaveData.Enabled = false;
+                        deDateRest.Value = null;
+                        break;
+                    case 3:
+                        sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOn", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
+                        sp.Add(new SqlParameter() { ParameterName = "@Detail", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
+                        spUpdate.Add(new SqlParameter() { ParameterName = "@PendNote", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote1 });
+                        queryTicket += ", ResolutionNote = (Select ISNULL(ResolutionNote,'') + @PendNote From tblTicket Where ID = @ID) WHERE ID = @ID";
+                        memoTextRest.Text = "";
+                        Status_tck.Text = "Pending Info";
+                        Status_tck.ForeColor = Color.Red;
+                        btnFromPendingRest.Enabled = true;
+                        btnToPendingRest.Enabled = false;
+                        btClose.Enabled = false;
+                        btSaveData.Enabled = false;
+                        deDateRest.Value = null;
+                        break;
+                    case 4:
+                        break;
 
-                    break;
-                case 3:
-                    sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOn", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
-                    sp.Add(new SqlParameter() { ParameterName = "@Detail", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
-                    memoTextRest.Text = "";
-                    Status_tck.Text = "Pending Info";
-                    Status_tck.ForeColor = Color.Red;
-                    btnFromPendingRest.Enabled = true;
-                    btnToPendingRest.Enabled = false;
-                    break;
-                case 4:                    
-                    break;
-
+                }
+                
+                DataBase.UpdateDB(sp, query);
+                DataBase.UpdateDB(spUpdate, queryTicket);
+                ASPxButton1_Click(null, null);
+                //UpdatePendingInfo();
+               
             }
-            DataBase.UpdateDB(sp, query);
-            DataBase.UpdateDB(spUpdate, queryTicket);
-            UpdatePendingInfo();
+            else
+            {
+                lblMsg.Text = "Date Time on hold is required";
+                popMsg.ShowOnPageLoad = true;
+                //memoTextRest.Text = "";
+            }
         }
 
         private void UpdatePendingInfo()
         {
+            
             string query = "SELECT * FROM tblPendingInfo WHERE TicketID = @TicketID Order By PendingInfoOn ASC";
             string severity = flDetails_E2.Text.Split(' ')[1];
             TimeSpan acumTotal;
@@ -572,13 +615,15 @@ namespace ATCPortal.Amerinode
                     deRestDate.Value = null;
                     lbRestDateTime.Visible = true;
                     deResoDate.Visible = true;
-                    deResoDate.Enabled = true;
+                    deResoDate.Enabled = false;
                     deResoDate.Value = null;
                     lbResoDateTime.Visible = true;
                     deClosDate.Visible = true;
-                    deClosDate.Enabled = true;
+                    deClosDate.Enabled = false;
                     deClosDate.Value = null;
-                    lbCloseDateTime.Visible = true;                    
+                    lbCloseDateTime.Visible = true;
+                    btClose.Enabled = false;
+                    btSaveData.Enabled = false;
                 }
                 if (statusTicket == 3)
                 {
@@ -586,20 +631,23 @@ namespace ATCPortal.Amerinode
                     deRespDate.Enabled = true;
                     lbRespDateTime.Visible = true;
                     deRestDate.Visible = true;
-                    deRestDate.Enabled = true;
-                    deRestDate.Value = null;
+                    deRestDate.Enabled = true;                    
                     lbRestDateTime.Visible = true;
                     deResoDate.Visible = true;
                     deResoDate.Enabled = true;
+                    deResoDate.Value = null;
                     lbResoDateTime.Visible = true;
-                    deClosDate.Visible = true;
-                    deClosDate.Enabled = true;
-                    lbCloseDateTime.Visible = true;                    
+                    deClosDate.Visible = false;
+                    deClosDate.Enabled = false;
+                    lbCloseDateTime.Visible = false;
+                    deClosDate.Value = null;
+                    btClose.Enabled = false;
+                    btSaveData.Enabled = false;
                 }
                 PerformUpdates(statusTicket);
             }
 
-            //OJO CON  ESTE
+            
 
             
 
@@ -611,7 +659,7 @@ namespace ATCPortal.Amerinode
                     #region Created
                     
                     case 1:
-                        // Open - Created
+                        //Created                     
                         statusDate = DateTime.Parse(Session["CreationDate"].ToString());
                         if (Session["ResponseDate"] != null)
                         {
@@ -652,7 +700,7 @@ namespace ATCPortal.Amerinode
                                     TimeSpan time = DateTime.Parse(dr["PendingInfoOff"].ToString()) - DateTime.Parse(dr["PendingInfoOn"].ToString());
                                     logs.Append("\nTime total hold " + time.ToString(@"dd\.hh\:mm\:ss") + "\n");
                                     acumTotal += time;
-                                    logs.Append("-------------------------------------------------------------\n\n");
+                                    logs.Append("\n");
                                 }
                             }
                             lblTotalTimeResp.Text = acumTotal.ToString(@"dd\.hh\:mm\:ss");
@@ -684,13 +732,14 @@ namespace ATCPortal.Amerinode
                         }
                         else
                         {
-                            deDateRest.Enabled = false;
+                            //deDateRest.Enabled = false;
                             //btnFromPendingRest.Enabled = false;
                             //btnToPendingRest.Enabled = false;
                             //pnlFileReso.Visible = false;
                             timerResp.Enabled = false;
                         }
                         break;
+                        
                     #endregion
                     #region Open
                     case 2:
@@ -740,7 +789,7 @@ namespace ATCPortal.Amerinode
                                     TimeSpan time = DateTime.Parse(dr["PendingInfoOff"].ToString()) - DateTime.Parse(dr["PendingInfoOn"].ToString());
                                     logs.Append("\nTime total hold " + time.ToString(@"dd\.hh\:mm\:ss") + "\n");
                                     acumTotal += time;
-                                    logs.Append("-------------------------------------------------------------\n\n");
+                                    logs.Append("\n");
                                 }
                             }
                             lblTotalTimeRest.Text = acumTotal.ToString(@"dd\.hh\:mm\:ss");
@@ -805,7 +854,7 @@ namespace ATCPortal.Amerinode
                                 }
                                 else
                                 {
-                                    //btnToPendingRest.Enabled = false;  //estaba true
+                                    btnToPendingRest.Enabled = true;  //estaba true
                                     //btnFromPendingRest.Enabled = false;
                                     Session["HoldTime"] = false;                                    
                                     //pnlFileReso.Visible = true;
@@ -822,7 +871,7 @@ namespace ATCPortal.Amerinode
                                     TimeSpan time = DateTime.Parse(dr["PendingInfoOff"].ToString()) - DateTime.Parse(dr["PendingInfoOn"].ToString());
                                     logs.Append("\nTime total hold " + time.ToString(@"dd\.hh\:mm\:ss") + "\n");
                                     acumTotal += time;
-                                    logs.Append("-------------------------------------------------------------\n\n");
+                                    logs.Append("\n");
                                 }
                             }
                             lblTotalTimeReso.Text = acumTotal.ToString(@"dd\.hh\:mm\:ss");
@@ -850,7 +899,7 @@ namespace ATCPortal.Amerinode
                         }
                         else
                         {
-                            deDateRest.Enabled = true;
+                            deDateRest.Enabled = false;
                             //btnFromPendingRest.Enabled = false;
                             //btnToPendingRest.Enabled = false;
                             //pnlFileReso.Visible = false;                            
@@ -884,53 +933,82 @@ namespace ATCPortal.Amerinode
 
         protected void btFromPending_Click(object sender, EventArgs e)
         {
-            string queryPrevStatus = "SELECT top 1 t1.PreviousStatus, t2.Name, t1.PendingInfoOn FROM tblPendingInfo t1 INNER JOIN tblStatus t2 ON t2.ID = t1.PreviousStatus WHERE t1.TicketID = @TicketID AND t1.PendingInfoOff is NULL ORDER BY t1.PendingInfoOn DESC";
-            string query = "UPDATE tblPendingInfo SET PendingInfoOff = @PendingInfoOff, UsernameOff = @UsernameOff, DetailInfoOff = @DetailInfoOff WHERE TicketID = @TicketID AND PendingInfoOff IS NULL";
-            string queryTicket = "UPDATE tblTicket SET StatusID = @StatusID WHERE ID = @TicketID";
-            int prevStatus = Convert.ToInt32(Session["PreviousStatus"]);
-            List<SqlParameter> sp = new List<SqlParameter>()
+            if (deDateRest.Text != "")
             {
-                new SqlParameter() { ParameterName = "@TicketID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] }
-            };
-            DataTable dtStatus = DataBase.GetDT(sp, queryPrevStatus);
-            sp = new List<SqlParameter>()
-            {
-                new SqlParameter() { ParameterName = "@StatusID", SqlDbType = SqlDbType.Int, Value = dtStatus.Rows[0][0] },
-                new SqlParameter() { ParameterName = "@TicketID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] }
-            };
-            DataBase.UpdateDB(sp, queryTicket);
-            sp = new List<SqlParameter>()
-            {
-                new SqlParameter() { ParameterName = "@TicketID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] },
-                new SqlParameter() { ParameterName = "@UsernameOff", SqlDbType = SqlDbType.NVarChar, Value = User.Identity.Name }
-            };
+                
+                string queryPrevStatus = "SELECT top 1 t1.PreviousStatus, t2.Name, t1.PendingInfoOn FROM tblPendingInfo t1 INNER JOIN tblStatus t2 ON t2.ID = t1.PreviousStatus WHERE t1.TicketID = @TicketID AND t1.PendingInfoOff is NULL ORDER BY t1.PendingInfoOn DESC";
+                string query = "UPDATE tblPendingInfo SET PendingInfoOff = @PendingInfoOff, UsernameOff = @UsernameOff, DetailInfoOff = @DetailInfoOff WHERE TicketID = @TicketID AND PendingInfoOff IS NULL";
+                string queryTicket = "UPDATE tblTicket SET StatusID = @StatusID";
+                int prevStatus = Convert.ToInt32(Session["PreviousStatus"]);
+                string _meRespNote2 = string.Empty;
+                //string head = "Saved by: {0}\nDate: {1}\n{2}\n------------------------------------------------------------------------------------\n\n";
+                string head2 = "{2}\nSaved by: {0}\nDate: {1}\n\n*** Status OPEN ***\n\n";
+                if (prevStatus==3)
+                    head2 = "{2}\nSaved by: {0}\nDate: {1}\n\n*** Status RESTORED ***\n\n";
+                _meRespNote2 += string.Format(head2, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(memoTextRest.Text));
 
-            switch (prevStatus)
-            {
-                case 1:
-                case 2:
-                    sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOff", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
-                    sp.Add(new SqlParameter() { ParameterName = "@DetailInfoOff", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
-                    memoTextRest.Text = "";
-                    Status_tck.Text = "Status: Open";
-                    Status_tck.ForeColor = Color.Lime;
-                    break;
-                case 3:
-                    sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOff", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
-                    sp.Add(new SqlParameter() { ParameterName = "@DetailInfoOff", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
-                    memoTextRest.Text = "";
-                    Status_tck.Text = "Status: Restored";
-                    Status_tck.ForeColor = Color.Lime;
-                    break;
+                List<SqlParameter> sp = new List<SqlParameter>()
+                {
+                    new SqlParameter() { ParameterName = "@TicketID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] }
+                };
+                DataTable dtStatus = DataBase.GetDT(sp, queryPrevStatus);
+                List<SqlParameter> spUpdate = new List<SqlParameter>()
+                {
+                    new SqlParameter() { ParameterName = "@StatusID", SqlDbType = SqlDbType.Int, Value = dtStatus.Rows[0][0] },
+                    new SqlParameter() { ParameterName = "@ID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] }
+                };
 
-                case 4:                    
-                    break;
+                sp = new List<SqlParameter>()
+                {
+                    new SqlParameter() { ParameterName = "@TicketID", SqlDbType = SqlDbType.BigInt, Value = Session["ticket"] },
+                    new SqlParameter() { ParameterName = "@UsernameOff", SqlDbType = SqlDbType.NVarChar, Value = User.Identity.Name }
+                };
+
+                switch (prevStatus)
+                {
+                    case 1:
+                    case 2:
+                        sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOff", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
+                        sp.Add(new SqlParameter() { ParameterName = "@DetailInfoOff", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
+                        spUpdate.Add(new SqlParameter() { ParameterName = "@PendNote", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote2 });
+                        queryTicket += ", RestorationNote = (Select ISNULL(RestorationNote,'') + @PendNote From tblTicket Where ID = @ID) WHERE ID = @ID";
+                        memoTextRest.Text = "";
+                        Status_tck.Text = "Status: Open";
+                        Status_tck.ForeColor = Color.Lime;
+                        btClose.Enabled = true;
+                        btSaveData.Enabled = true;
+                        deDateRest.Value = null;
+                        break;
+                    case 3:
+                        sp.Add(new SqlParameter() { ParameterName = "@PendingInfoOff", SqlDbType = SqlDbType.DateTime, Value = deDateRest.Text });
+                        sp.Add(new SqlParameter() { ParameterName = "@DetailInfoOff", SqlDbType = SqlDbType.NVarChar, Value = memoTextRest.Text });
+                        spUpdate.Add(new SqlParameter() { ParameterName = "@PendNote", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote2 });
+                        queryTicket += ", ResolutionNote = (Select ISNULL(ResolutionNote,'') + @PendNote From tblTicket Where ID = @ID) WHERE ID = @ID";
+                        memoTextRest.Text = "";
+                        Status_tck.Text = "Status: Restored";
+                        Status_tck.ForeColor = Color.Lime;
+                        btClose.Enabled = true;
+                        btSaveData.Enabled = true;
+                        deDateRest.Value = null;
+                        break;
+
+                    case 4:
+                        break;
+                }
+                
+                DataBase.UpdateDB(sp, query);
+                DataBase.UpdateDB(spUpdate, queryTicket);
+                Session["_StatusID"] = prevStatus;
+                //UpdatePendingInfo();
+                ASPxButton1_Click(null, null);
+                btnToPendingRest.Enabled = true;
+                btnFromPendingRest.Enabled = false;
             }
-            DataBase.UpdateDB(sp, query);
-            Session["_StatusID"] = prevStatus;
-            UpdatePendingInfo();
-            btnToPendingRest.Enabled = true;
-            btnFromPendingRest.Enabled = false;
+            else
+            {
+                lblMsg.Text = "Date Time on hold is required";
+                popMsg.ShowOnPageLoad = true;
+            }
 
         }
 
@@ -1229,6 +1307,57 @@ namespace ATCPortal.Amerinode
             popMsg.ShowOnPageLoad = true;
         }
 
+        protected void btSaveData_Click(object sender, EventArgs e, int X)   //AM-Save Data After Acepted
+        {
+
+            string sql = "UPDATE tblTicket SET ";
+            List<string> sb = new List<string>();
+            List<SqlParameter> sp = new List<SqlParameter>()
+            {
+                new SqlParameter() {ParameterName = "@ID", SqlDbType = SqlDbType.BigInt, Value=gvTickets.Text}
+            };
+
+
+            string _meRespNote = string.Empty;            
+            //string head = "Saved by: {0}\nDate: {1}\n{2}\n------------------------------------------------------------------------------------\n\n";
+            string head = "{2}\nSaved by: {0}\nDate: {1}\n\n";
+
+            //AM-Inicio    (Select ResponseNote + 'aaaa' From tblTicket Where ID = 5802)       
+
+            if (Convert.ToInt32(Session["_StatusID"]) == 2)
+            {
+                _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
+                sb.Add("ResponseNote = (Select ISNULL(ResponseNote,'*** Status CREATED ***\n\n') + @Note1 From tblTicket Where ID = @ID)");
+                sp.Add(new SqlParameter() { ParameterName = "@Note1", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote });                
+            }
+            if (Convert.ToInt32(Session["_StatusID"]) == 3)
+            {
+                _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
+                sb.Add("RestorationNote = (Select ISNULL(RestorationNote,'') + @Note2 From tblTicket Where ID = @ID)");
+                sp.Add(new SqlParameter() { ParameterName = "@Note2", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote });                
+            }
+            if (Convert.ToInt32(Session["_StatusID"]) == 4)
+            {
+                _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
+                sb.Add("ResolutionNote = (Select ISNULL(ResolutionNote,'') + @Note3 From tblTicket Where ID = @ID)");
+                sp.Add(new SqlParameter() { ParameterName = "@Note3", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote });
+                
+            }
+            if (Convert.ToInt32(Session["_StatusID"]) == 5)
+            {
+                _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
+                sb.Add("ClosureNote= (Select ISNULL(ClosureNote,'') + @Note4 From tblTicket Where ID = @ID)");
+                sp.Add(new SqlParameter() { ParameterName = "@Note4", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote + "*** Status CLOSED ***" });                
+            }       
+            
+            if (sb.Count > 0)
+            {
+                sql += string.Join(", ", sb.ToArray()) + " WHERE ID = @ID";               
+                DataBase.UpdateDB(sp, sql);
+            }
+            PerformUpdates(0);
+        }
+
         protected void btSaveData_Click(object sender, EventArgs e)   //AM-Save Data After Acepted
         {
 
@@ -1241,46 +1370,36 @@ namespace ATCPortal.Amerinode
 
 
             string _meRespNote = string.Empty;
-            string _meRestNote = string.Empty;
-            string _meResoNote = string.Empty;
-            string _meClosNote = string.Empty;
             //string head = "Saved by: {0}\nDate: {1}\n{2}\n------------------------------------------------------------------------------------\n\n";
-            string head = "{2}\nSaved by: {0}\nDate: {1}\n------------------------------------------------------------------------------------\n\n";
+            string head = "{2}\nSaved by: {0}\nDate: {1}\n\n";
 
-            //AM-Inicio            
+            //AM-Inicio    (Select ResponseNote + 'aaaa' From tblTicket Where ID = 5802)       
 
             if (Convert.ToInt32(Session["_StatusID"]) == 2)
             {
                 _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
-                sb.Add("ResponseNote = @Note1");
-                sp.Add(new SqlParameter() { ParameterName = "@Note1", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote });                
+                sb.Add("RestorationNote = (Select ISNULL(RestorationNote,'') + @Note1 From tblTicket Where ID = @ID)");
+                sp.Add(new SqlParameter() { ParameterName = "@Note1", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote + "*** Status OPEN ***\n\n" });
             }
             if (Convert.ToInt32(Session["_StatusID"]) == 3)
             {
-                _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
-                sb.Add("RestorationNote = @Note2");
-                sp.Add(new SqlParameter() { ParameterName = "@Note2", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote });                
+                _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));                
+                sb.Add("ResolutionNote = (Select ISNULL(ResolutionNote,'') + @Note2 From tblTicket Where ID = @ID)");
+                sp.Add(new SqlParameter() { ParameterName = "@Note2", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote + "*** Status RESTORED ***\n\n" });
             }
             if (Convert.ToInt32(Session["_StatusID"]) == 4)
             {
                 _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
-                sb.Add("ResolutionNote = @Note3");
-                sp.Add(new SqlParameter() { ParameterName = "@Note3", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote });
-                
-            }
-            if (Convert.ToInt32(Session["_StatusID"]) == 5)
-            {
-                _meRespNote += string.Format(head, User.Identity.Name, DateTime.Now.ToString(), Server.HtmlEncode(meRespNote.Text));
-                sb.Add("ClosureNote= @Note4");
-                sp.Add(new SqlParameter() { ParameterName = "@Note4", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote });                
-            }        
-
-
+                sb.Add("ClosureNote = (Select ISNULL(ClosureNote,'') + @Note3 From tblTicket Where ID = @ID)");
+                sp.Add(new SqlParameter() { ParameterName = "@Note3", SqlDbType = SqlDbType.NVarChar, Value = _meRespNote + "*** Status RESOLVED ***\n\n" });
+            }   
+            
             if (sb.Count > 0)
             {
-                sql += string.Join(", ", sb.ToArray()) + " WHERE ID = @ID";
+                sql += string.Join(", ", sb.ToArray()) + " WHERE ID = @ID";                
                 DataBase.UpdateDB(sp, sql);
             }
+            meRespNote.Text = "";
             PerformUpdates(0);
         }
 

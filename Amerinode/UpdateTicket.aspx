@@ -314,7 +314,7 @@
                     <dx:ASPxButton ID="btnEmail2" runat="server" Text="Resend Email" Width="150px" OnClick="ASPxButton1_Click1"></dx:ASPxButton>
                     <br />
                     <br />
-                    <dx:ASPxRadioButton ID="rbOpen" AutoPostBack="true" GroupName="Status" Text="Accept Ticket" Layout="Flow" runat="server" Checked="true" OnCheckedChanged="rbOpen_CheckedChanged"></dx:ASPxRadioButton>
+                    <dx:ASPxRadioButton ID="rbOpen" AutoPostBack="true" GroupName="Status" Text="Take Ticket" Layout="Flow" runat="server" Checked="true" OnCheckedChanged="rbOpen_CheckedChanged" Visible="false"></dx:ASPxRadioButton>
                     <dx:ASPxRadioButton ID="rbReject" AutoPostBack="true" GroupName="Status" Text="Reject Ticket" Layout="Flow" runat="server" OnCheckedChanged="rbReject_CheckedChanged"></dx:ASPxRadioButton>
                     <div class="float-right">
                         Rejected Or Accepted By:&nbsp;
@@ -405,7 +405,7 @@
                             <asp:Label ID="Label5" runat="server" Text="Place Ticket hold time Rest:" ForeColor="Blue"></asp:Label>                            
                             <dx:ASPxDateEdit ID="deDateRest" runat="server" Width="350px" EditFormat="DateTime" TimeSectionProperties-Visible="true" Enabled="false">
                             <TimeSectionProperties Visible="True"></TimeSectionProperties>
-                            <ClientSideEvents Init="initDate" DropDown="initDate"/>
+                            <ClientSideEvents DropDown="initDate"/>
                             </dx:ASPxDateEdit> 
                             <br /><br />
                             <asp:Label ID="Label2" runat="server" Text="Description Hold Note:" ForeColor="Blue" ></asp:Label>
@@ -421,22 +421,22 @@
                                 </PanelCollection>
                             </dx:ASPxPanel>
                             <dx:ASPxButton ID="btnToPendingRest" runat="server" Text="TO Pending Info Customer" OnClick="btToPending_Click" Enabled="false"></dx:ASPxButton>
-                            <dx:ASPxButton ID="btnFromPendingRest" runat="server" Text="FROM Customer Pending Info" OnClick="btFromPending_Click" Enabled="false"></dx:ASPxButton>
+                            <dx:ASPxButton ID="btnFromPendingRest" runat="server" Text="FROM Pending Info Customer" OnClick="btFromPending_Click" Enabled="false"></dx:ASPxButton>
                             <br /><br />
-                            <asp:Label ID="Label3" runat="server" Text="Hold Time History:" ForeColor="Blue"></asp:Label>                             
+                            <asp:Label ID="Label3" runat="server" Text="Hold Time History:" ForeColor="Blue" Visible="false"></asp:Label>                             
                             <br /><br />
-                            <dx:ASPxMemo EncodeHtml="true" ID="memoRest" runat="server" Height="350px" Width="100%" ReadOnly="true" BackColor="#F5F5F5"></dx:ASPxMemo>                                                                
+                            <dx:ASPxMemo EncodeHtml="true" ID="memoRest" runat="server" Height="350px" Width="100%" ReadOnly="true" BackColor="#F5F5F5" Visible="false"></dx:ASPxMemo>                                                                
                             <br /><br />                           
                         </div>
                         <div class="col-6" style="position:static">
                             
                             <asp:UpdatePanel runat="server" ID="pnlTick" ViewStateMode="Enabled" OnUnload="UpdatePanel_Unload" Visible="true">
                                 <ContentTemplate>
-                                    Total status time:
+                                    <asp:Label runat="server" Text="SLA Response time: " Font-Bold="true"  ForeColor="Blue"></asp:Label>
                                     <dx:ASPxLabel runat="server" ID="lblTotalResp" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>&nbsp;
                                     
                                     <dx:ASPxLabel ID="lblTotalTimeResp" runat="server" Font-Bold="true" Font-Size="Medium" Visible="false"></dx:ASPxLabel>&nbsp;
-                                    Chronometer:
+                                    <asp:Label runat="server" Font-Bold="true" Text="Chronometer: " ForeColor="Blue"></asp:Label>
                                     <dx:ASPxLabel ID="lblChroResp" runat="server" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>
                                     <asp:Timer runat="server" ID="timerResp" Interval="1000" OnTick="tTick_Tick" Enabled="false"></asp:Timer>
                                 </ContentTemplate>
@@ -446,11 +446,11 @@
                             </asp:UpdatePanel>
                             <asp:UpdatePanel runat="server" ID="pnlTickRest" ViewStateMode="Enabled" OnUnload="UpdatePanel_Unload" Visible="false">
                                             <ContentTemplate>
-                                                Total status time:
-                                                <dx:ASPxLabel runat="server" ID="lblTotalRest" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>&nbsp;-
-                                                Total time hold:
-                                                <dx:ASPxLabel ID="lblTotalTimeRest" runat="server" Font-Bold="true" Font-Size="Medium" ></dx:ASPxLabel>&nbsp;-
-                                                Chronometer:
+                                                <asp:Label runat="server" Text="SLA Restoration time: " Font-Bold="true"  ForeColor="Blue"></asp:Label>
+                                                <dx:ASPxLabel runat="server" ID="lblTotalRest" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>&nbsp;
+                                                <asp:Label runat="server" Text="SLA Restoration hold time: " Font-Bold="true"   ForeColor="Blue"></asp:Label>
+                                                <dx:ASPxLabel ID="lblTotalTimeRest" runat="server" Font-Bold="true" Font-Size="Medium" ></dx:ASPxLabel>&nbsp;
+                                                <asp:Label runat="server" Text="Chronometer: " Font-Bold="true"  ForeColor="Blue"></asp:Label>
                                                 <dx:ASPxLabel ID="lblChroRest" runat="server" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>
                                                 <asp:Timer runat="server" ID="timerRest" Interval="1000" OnTick="tTick_Tick" Enabled="false"></asp:Timer>
                                             </ContentTemplate>
@@ -460,11 +460,11 @@
                             </asp:UpdatePanel>
                             <asp:UpdatePanel runat="server" ID="pnlTickReso" ViewStateMode="Enabled" OnUnload="UpdatePanel_Unload" Visible="false">
                                             <ContentTemplate>
-                                                Total ticket time:
-                                                <dx:ASPxLabel runat="server" ID="lblTotalReso" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>&nbsp;-
-                                                Total time hold:
-                                                <dx:ASPxLabel ID="lblTotalTimeReso" runat="server" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>&nbsp;-
-                                                Chronometer:
+                                                <asp:Label runat="server" Text="SLA Resolution time: " Font-Bold="true"  ForeColor="Blue"></asp:Label>
+                                                <dx:ASPxLabel runat="server" ID="lblTotalReso" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>&nbsp;
+                                                <asp:Label runat="server" Text="SLA Resolution hold time: " Font-Bold="true"   ForeColor="Blue"></asp:Label>
+                                                <dx:ASPxLabel ID="lblTotalTimeReso" runat="server" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>&nbsp;
+                                                <asp:Label runat="server" Text="Chronometer: " Font-Bold="true"   ForeColor="Blue"></asp:Label>
                                                 <dx:ASPxLabel ID="lblChroReso" runat="server" Font-Bold="true" Font-Size="Medium"></dx:ASPxLabel>
                                                 <asp:Timer runat="server" ID="timerReso" Interval="1000" OnTick="tTick_Tick" Enabled="false"></asp:Timer>
                                             </ContentTemplate>
@@ -488,9 +488,9 @@
                                                         <ValidationSettings AllowedFileExtensions=".jpg,.jpeg,.png,.tif,.tiff,.gif,.pdf,.txt,.xls,.xlsx,.doc,.docx,.log,.msg,.tmf,.zip,.rar" MaxFileSize="5242880" NotAllowedFileExtensionErrorText="Extensions allowed are: jpg, jpeg, png, tif, tiff, gif, pdf, txt, xls, xlsx, doc, docx, log, msg, .tmf, .zip and .rar" MaxFileSizeErrorText="Maximum allowed size is 5 Mbyte"></ValidationSettings>
                                                     </dx:ASPxUploadControl>
                                                 </dx:PanelContent>
-                                            </PanelCollection>
-                                        </dx:ASPxPanel>  
-                            
+                                            </PanelCollection>                                            
+                             </dx:ASPxPanel>  
+                             <asp:Label runat="server" Text=""></asp:Label><asp:Label ID="lblTest" runat="server" Text=""></asp:Label>
                         </div>
                     </div>                    
                 </div>
